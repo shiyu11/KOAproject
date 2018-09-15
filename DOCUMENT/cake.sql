@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS `Cake`.`products` (
   `pprice` VARCHAR(45) NOT NULL,
   `pnum` INT NOT NULL,
   `occasion` VARCHAR(45) NOT NULL,
-  `taste` INT NULL,
+  `taste` VARCHAR(45) NULL,
   `theme` BIT NOT NULL DEFAULT 0,
   `dpic` VARCHAR(45) NOT NULL,
   `xpic` VARCHAR(45) NOT NULL,
   `text` VARCHAR(45) NULL,
-  `intr` VARCHAR(45) NULL,
+  `intr` VARCHAR(255) NULL,
   `xxpic` VARCHAR(45) NULL,
   PRIMARY KEY (`pid`))
 ENGINE = InnoDB;
