@@ -12,6 +12,5 @@ class DB{
         );
     }
     // addadminreview(){
-
 }
 module.exports=new DB()
