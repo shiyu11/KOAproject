@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>活动信息表</title>
+</head>
+<body>
+<ul>
+     <%for(var i = 0;i< data1.length; i++){%>
+          <li>内容规则：<%=data1[i].rule%></li>
+    <%}%>
+    <%for(var i = 0;i< data2.length; i++){%>
+         <li>折扣：<%=data2[i].discount%></li>
+    <%}%>
+</ul>
+</body>
+</html>

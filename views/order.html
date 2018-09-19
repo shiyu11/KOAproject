@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提交订单</title>
+</head>
+<body>
+
+ <%for(var i = 0;i< data.length; i++){%>
+<a href="/Del/<%=data[i].oid%>">删除</a><br/>
+    <span>订单号：<%=data[i].oid%></span><br/>
+    <span>配送方式：<%=data[i].method%></span><br/>
+    <span>订单状态：<%=data[i].state%></span><br/>
+    <span>留言：<%=data[i].note%></span><br/>
+    <!--<span>会员编号：<%=data.uid%></span><br/>-->
+    <!--<span>主键：<%=data.rid%></span><br/>-->
+    <span>数量：<%=data[i].rnum%></span><br/>
+    <span>商品编号：<%=data[i].pid%></span><br/>
+    <!--<span>主键：<%=data.aid%></span><br/>-->
+    <!--<span>收货姓名：<%=data.aname%></span><br/>-->
+    <!--<span>手机号：<%=data.phone%></span><br/>-->
+    <!--<span>地址：<%=data.address%></span><br/>-->
+    <!--<span>默认地址：<%=data.defaultaddress%></span><br/>-->
+
+ <%}%>
+
+
+</body>
+</html>
