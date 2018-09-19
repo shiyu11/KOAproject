@@ -1,280 +1,239 @@
--- MySQL Workbench Forward Engineering
+/*
+ Navicat Premium Data Transfer
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 80012
+ Source Host           : localhost:3306
+ Source Schema         : cake
 
--- -----------------------------------------------------
--- Schema Cake
--- -----------------------------------------------------
+ Target Server Type    : MySQL
+ Target Server Version : 80012
+ File Encoding         : 65001
 
--- -----------------------------------------------------
--- Schema Cake
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Cake` DEFAULT CHARACTER SET utf8 ;
-USE `Cake` ;
+ Date: 19/09/2018 20:03:00
+*/
 
--- -----------------------------------------------------
--- Table `Cake`.`event`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`event` (
-  `eid` INT NOT NULL AUTO_INCREMENT,
-  `etimestart` DATETIME NOT NULL,
-  `rule` VARCHAR(45) NOT NULL,
-  `etimeend` DATETIME NOT NULL,
-  PRIMARY KEY (`eid`))
-ENGINE = InnoDB;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
+-- ----------------------------
+-- Table structure for address
+-- ----------------------------
+DROP TABLE IF EXISTS `address`;
+CREATE TABLE `address`  (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `aname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `phone` int(100) NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `defaultaddress` bit(1) NOT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`aid`) USING BTREE,
+  INDEX `fk_address_users1_idx`(`uid`) USING BTREE,
+  CONSTRAINT `fk_address_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`products`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`products` (
-  `pid` INT NOT NULL AUTO_INCREMENT,
-  `pname` VARCHAR(45) NOT NULL,
-  `ppic` VARCHAR(45) NOT NULL,
-  `pprice` VARCHAR(45) NOT NULL,
-  `pnum` INT NOT NULL,
-  `occasion` VARCHAR(45) NOT NULL,
-  `taste` VARCHAR(45) NULL,
-  `theme` BIT NOT NULL DEFAULT 0,
-  `dpic` VARCHAR(45) NOT NULL,
-  `xpic` VARCHAR(45) NOT NULL,
-  `text` VARCHAR(45) NULL,
-  `intr` VARCHAR(255) NULL,
-  `xxpic` VARCHAR(45) NULL,
-  PRIMARY KEY (`pid`))
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for admin
+-- ----------------------------
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin`  (
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
+  `admin` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `apwd` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`gid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for card
+-- ----------------------------
+DROP TABLE IF EXISTS `card`;
+CREATE TABLE `card`  (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `ctime` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `cpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `cnote` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `cstate` bit(1) NOT NULL DEFAULT b'0',
+  `tid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`cid`) USING BTREE,
+  INDEX `fk_card_theme1_idx`(`tid`) USING BTREE,
+  INDEX `fk_card_users1_idx`(`uid`) USING BTREE,
+  CONSTRAINT `fk_card_theme1` FOREIGN KEY (`tid`) REFERENCES `theme` (`tid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_card_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`eventdetails`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`eventdetails` (
-  `qid` INT NOT NULL AUTO_INCREMENT,
-  `qpic` VARCHAR(45) NULL,
-  `eid` INT NOT NULL,
-  `pid` INT NOT NULL,
-  `discount` VARCHAR(45) NULL,
-  PRIMARY KEY (`qid`),
-  INDEX `fk_eventdetails_event1_idx` (`eid` ASC),
-  INDEX `fk_eventdetails_products1_idx` (`pid` ASC),
-  CONSTRAINT `fk_eventdetails_event1`
-    FOREIGN KEY (`eid`)
-    REFERENCES `Cake`.`event` (`eid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_eventdetails_products1`
-    FOREIGN KEY (`pid`)
-    REFERENCES `Cake`.`products` (`pid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for event
+-- ----------------------------
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event`  (
+  `eid` int(11) NOT NULL AUTO_INCREMENT,
+  `etimestart` datetime(0) NOT NULL,
+  `rule` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `etimeend` datetime(0) NOT NULL,
+  PRIMARY KEY (`eid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for eventdetails
+-- ----------------------------
+DROP TABLE IF EXISTS `eventdetails`;
+CREATE TABLE `eventdetails`  (
+  `qid` int(11) NOT NULL AUTO_INCREMENT,
+  `qpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `eid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `discount` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`qid`) USING BTREE,
+  INDEX `fk_eventdetails_event1_idx`(`eid`) USING BTREE,
+  INDEX `fk_eventdetails_products1_idx`(`pid`) USING BTREE,
+  CONSTRAINT `fk_eventdetails_event1` FOREIGN KEY (`eid`) REFERENCES `event` (`eid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_eventdetails_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`users` (
-  `uid` INT NOT NULL AUTO_INCREMENT,
-  `uname` VARCHAR(45) NOT NULL,
-  `upwd` VARCHAR(50) NOT NULL,
-  `headpic` VARCHAR(45) NULL,
-  `grade` INT NULL DEFAULT 0,
-  `level` INT NULL DEFAULT 1,
-  `sex` BIT NULL,
-  `birth` DATETIME NULL,
-  PRIMARY KEY (`uid`))
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for location
+-- ----------------------------
+DROP TABLE IF EXISTS `location`;
+CREATE TABLE `location`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lid` int(11) NULL DEFAULT NULL,
+  `laddress` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `details` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_location_users1_idx`(`uid`) USING BTREE,
+  CONSTRAINT `fk_location_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order`  (
+  `oid` int(11) NOT NULL,
+  `method` bit(1) NOT NULL DEFAULT b'0',
+  `state` int(11) NOT NULL,
+  `note` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `uid` int(11) NOT NULL,
+  `money` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`oid`) USING BTREE,
+  INDEX `fk_order_users1_idx`(`uid`) USING BTREE,
+  CONSTRAINT `fk_order_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`address`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`address` (
-  `aid` INT NOT NULL AUTO_INCREMENT,
-  `aname` INT NOT NULL,
-  `phone` INT NOT NULL,
-  `address` VARCHAR(45) NULL,
-  `defaultaddress` BIT NOT NULL,
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`aid`),
-  INDEX `fk_address_users1_idx` (`uid` ASC),
-  CONSTRAINT `fk_address_users1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Cake`.`users` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for orderdetails
+-- ----------------------------
+DROP TABLE IF EXISTS `orderdetails`;
+CREATE TABLE `orderdetails`  (
+  `rid` int(11) NOT NULL,
+  `rnum` int(11) NOT NULL,
+  `oid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  PRIMARY KEY (`rid`) USING BTREE,
+  INDEX `fk_orderdetails_order1_idx`(`oid`) USING BTREE,
+  INDEX `fk_orderdetails_products1_idx`(`pid`) USING BTREE,
+  CONSTRAINT `fk_orderdetails_order1` FOREIGN KEY (`oid`) REFERENCES `order` (`oid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_orderdetails_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for products
+-- ----------------------------
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE `products`  (
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `pname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `ppic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `pprice` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `pnum` int(11) NOT NULL,
+  `occasion` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `taste` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `theme` bit(1) NOT NULL DEFAULT b'0',
+  `dpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `xpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `text` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `intr` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `xxpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`pid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`order`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`order` (
-  `oid` INT NOT NULL,
-  `method` BIT NOT NULL DEFAULT 0,
-  `state` INT NOT NULL,
-  `note` VARCHAR(45) NULL,
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`oid`),
-  INDEX `fk_order_users1_idx` (`uid` ASC),
-  CONSTRAINT `fk_order_users1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Cake`.`users` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for review
+-- ----------------------------
+DROP TABLE IF EXISTS `review`;
+CREATE TABLE `review`  (
+  `vid` int(11) NOT NULL AUTO_INCREMENT,
+  `vcontent` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `vtime` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `vstate` bit(1) NOT NULL DEFAULT b'0',
+  `reply` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `pid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`vid`) USING BTREE,
+  INDEX `fk_review_products1_idx`(`pid`) USING BTREE,
+  INDEX `fk_review_users1_idx`(`uid`) USING BTREE,
+  CONSTRAINT `fk_review_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_review_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for theme
+-- ----------------------------
+DROP TABLE IF EXISTS `theme`;
+CREATE TABLE `theme`  (
+  `tid` int(11) NOT NULL AUTO_INCREMENT,
+  `ttime` datetime(0) NOT NULL,
+  `tname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `tpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `text1` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `text2` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `text3` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  PRIMARY KEY (`tid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
--- -----------------------------------------------------
--- Table `Cake`.`orderdetails`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`orderdetails` (
-  `rid` INT NOT NULL,
-  `rnum` INT NOT NULL,
-  `oid` INT NOT NULL,
-  `pid` INT NOT NULL,
-  PRIMARY KEY (`rid`),
-  INDEX `fk_orderdetails_order1_idx` (`oid` ASC),
-  INDEX `fk_orderdetails_products1_idx` (`pid` ASC),
-  CONSTRAINT `fk_orderdetails_order1`
-    FOREIGN KEY (`oid`)
-    REFERENCES `Cake`.`order` (`oid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_orderdetails_products1`
-    FOREIGN KEY (`pid`)
-    REFERENCES `Cake`.`products` (`pid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `uname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `upwd` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `headpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `grade` int(11) NULL DEFAULT 0,
+  `level` int(11) NULL DEFAULT 1,
+  `sex` bit(1) NULL DEFAULT NULL,
+  `birth` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`uid`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Procedure structure for deleteproduct
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `deleteproduct`;
+delimiter ;;
+CREATE PROCEDURE `deleteproduct`(id int)
+begin
+declare t_error int;
+declare  continue handler for sqlexception set t_error = 1;
+start transaction;
 
--- -----------------------------------------------------
--- Table `Cake`.`review`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`review` (
-  `vid` INT NOT NULL AUTO_INCREMENT,
-  `vcontent` VARCHAR(45) NOT NULL,
-  `vtime` DATETIME NOT NULL,
-  `vstate` BIT NOT NULL DEFAULT 0,
-  `reply` VARCHAR(45) NULL,
-  `pid` INT NOT NULL,
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`vid`),
-  INDEX `fk_review_products1_idx` (`pid` ASC),
-  INDEX `fk_review_users1_idx` (`uid` ASC),
-  CONSTRAINT `fk_review_products1`
-    FOREIGN KEY (`pid`)
-    REFERENCES `Cake`.`products` (`pid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_review_users1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Cake`.`users` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+delete from review where pid = id;
+delete from orderdetails where pid =id;
+delete from eventdetails where pid = id;
 
+if t_error = 1  then
+		select concat('ok!' ,t_error);
+       rollback;
+ELSE
+select t_error;
+        commit;
+END  IF;
+end
+;;
+delimiter ;
 
--- -----------------------------------------------------
--- Table `Cake`.`location`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`location` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `lid` INT NULL,
-  `laddress` VARCHAR(45) NOT NULL,
-  `details` VARCHAR(45) NULL,
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_location_users1_idx` (`uid` ASC),
-  CONSTRAINT `fk_location_users1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Cake`.`users` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cake`.`theme`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`theme` (
-  `tid` INT NOT NULL AUTO_INCREMENT,
-  `ttime` DATETIME NOT NULL,
-  `tname` VARCHAR(45) NOT NULL,
-  `tpic` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`tid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cake`.`tpicture`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`tpicture` (
-  `hid` INT NOT NULL AUTO_INCREMENT,
-  `hpic` VARCHAR(45) NULL,
-  `tid` INT NOT NULL,
-  `text1` VARCHAR(45) NULL,
-  `text2` VARCHAR(45) NULL,
-  `text3` VARCHAR(45) NULL,
-  PRIMARY KEY (`hid`),
-  INDEX `fk_tpicture_theme1_idx` (`tid` ASC),
-  CONSTRAINT `fk_tpicture_theme1`
-    FOREIGN KEY (`tid`)
-    REFERENCES `Cake`.`theme` (`tid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cake`.`card`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`card` (
-  `cid` INT NOT NULL AUTO_INCREMENT,
-  `ctime` DATETIME NOT NULL,
-  `cpic` VARCHAR(45) NULL,
-  `cnote` VARCHAR(45) NULL,
-  `cstate` BIT NOT NULL DEFAULT 0,
-  `tid` INT NOT NULL,
-  `uid` INT NOT NULL,
-  PRIMARY KEY (`cid`),
-  INDEX `fk_card_theme1_idx` (`tid` ASC),
-  INDEX `fk_card_users1_idx` (`uid` ASC),
-  CONSTRAINT `fk_card_theme1`
-    FOREIGN KEY (`tid`)
-    REFERENCES `Cake`.`theme` (`tid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_card_users1`
-    FOREIGN KEY (`uid`)
-    REFERENCES `Cake`.`users` (`uid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cake`.`admin`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`admin` (
-  `gid` INT NOT NULL AUTO_INCREMENT,
-  `admin` VARCHAR(45) NULL,
-  `apwd` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`gid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cake`.`table1`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cake`.`table1` (
-)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+SET FOREIGN_KEY_CHECKS = 1;

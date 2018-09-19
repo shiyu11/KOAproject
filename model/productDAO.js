@@ -1,24 +1,28 @@
-var DAO=require('../model/DAO')
-class DB{
+var DAO = require('../model/DAO')
+
+class DB {
 //获取全部的商品信息（页面场合进行渲染）
-//     儿童
-    getProduct1(){
-        return DAO("select * from products where occasion='儿童'",[])
+    getProduct() {
+        return DAO("select * from products ", [])
     }
-    //聚会
-    getProduct2(){
-        return DAO("select * from products where occasion='聚会'",[])
+    getProductdetails(pid) {
+        return DAO("select * from products where pid=?", [pid]);
     }
-   // 生日
-    getProduct3(){
-        return DAO("select * from products where occasion='生日'",[])
+    addProduct(products) {
+        return DAO("insert into products values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [products.pid, products.pname, products.ppic, products.pprice, products.pnum, products.occasion,
+                products.taste, products.theme, products.dpic, products.xpic, products.xxpic, products.text, products.intr]
+        );
     }
-   // 新品
-    getProduct4(){
-        return DAO("select * from products where occasion='新品'",[])
+    deleteProduct(pid) {
+        return DAO("call deleteproduct(?)", [pid]);
     }
-    getProductdetails(pid){
-        return DAO("select * from products where pid=?",[pid]);
-    }
+
+    // updateProduct(products, pid) {
+    //     return DAO("update products set pname=?,ppic=?,pprice=?,pnum=?,occasion=?,taste=?,theme=?,dpic=?,xpic=?,xxpic=?,text=?,intr=? where pid=?",
+    //     [products.pname, products.ppic, products.pprice, products.pnum, products.occasion,
+    //         products.taste, products.theme, products.dpic, products.xpic, products.xxpic, products.text, products.intr,pid])
+    // }
 }
-module.exports=new DB()
+
+module.exports = new DB()
