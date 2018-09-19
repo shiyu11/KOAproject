@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/product/addproduct">新增</a>
+<%for(var i = 0; i< data.length;i++){%>
+<li><a href="/product/details/<%=data[i].pid%>"><%=data[i].pname%></a></li>
+<li>编号：<%=data[i].pid%></li>
+<li>名称：<%=data[i].pname%></li>
+<li>价格：<%=data[i].pprice%></li>
+<a href="">加入购物车</a>
+<a href="/product/deleteproduct/<%=data[i].pid%>">删除</a>
+<a href="/product/updateproduct/<%=data[i].pid%>">更新</a>
+<%}%>
+</body>
+</html>
