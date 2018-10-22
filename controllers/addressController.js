@@ -19,6 +19,7 @@ module.exports = {
         address.phone = ctx.request.body.phone;
         address.address = ctx.request.body.address;
         address.defaultaddress = ctx.request.body.defaultaddress;
+        address.uid = ctx.request.body.uid;
         try{
             //2.调用用户数据访问对象的添加方法
             await addressDAO.addAddress(address);

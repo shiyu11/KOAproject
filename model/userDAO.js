@@ -1,4 +1,3 @@
-//关于用户对象的相关数据操作
 const DAO = require('../model/DAO')
 
 class DB{
@@ -18,6 +17,14 @@ class DB{
     //删除指定编号的用户信息方法
     delectUser(uid){
         return DAO('delete from users where uid = ?',[uid])
+    }
+    // //修改个人中心头像
+// gainheadpic(users){
+// }
+//修改更新个人中心文字部分
+    updatausers(users){
+        return DAO('update users set uname=?,upwd=?,sex=1 where uid=?',
+            [users.uname,users.upwd,users.uid])
     }
 }
 module.exports = new DB();

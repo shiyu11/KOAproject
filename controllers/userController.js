@@ -34,4 +34,19 @@ module.exports = {
             console.log('无法找到当前信息，错误：'+err.message)
         }
     }
+    ,
+    //修改信息
+    updateusers:async (ctx,next)=>{
+        let users={ };
+        users.uid=ctx.request.body.uid;
+        users.uname=ctx.request.body.uname;
+        users.upwd=ctx.request.body.upwd;
+        users.sex=ctx.request.body.sex;
+        try {
+            let data=await userDAO.updatausers(users);
+            ctx.body = {"code": 200, "message": "OK", data:[]}
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []}
+        }
+    },
 }

@@ -1,18 +1,27 @@
 const router = require('koa-router')()
-const reviewDAO = require('../model/reviewDAO')
 const productController = require('../controllers/productController')
-const router = require('koa-router')();
 const orderController = require('../controllers/orderController');
 const orderdetailsController = require('../controllers/orderdetailsController');
 const addressController = require('../controllers/addressController');
+const reviewController = require('../controllers/reviewController');
 
+
+// router.post('/',async (ctx,next)=>{
+//     //实现跨域允许，第二个参数代表可以跨域请求的源，*代表接受所有不同来源的请求
+//     ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+//     //await起到了then的作用，用于处理异步回调方法执行的后续工作
+//     await houseController.locationHouse(ctx,next)
+//     // await ctx.render('house',{data:jsondata})
+// })
 
 //根据商品的调出所有商品的主要信息
 router.get('/product', async (ctx, next) => {
+    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
     await productController.allproducts(ctx, next)
 
 })//根据商品编号查找相关的商品信息
     .get('/product/details/:pid', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         await productController.getoneproduct(ctx, next)
     })
     //增加商品信息(文字)
@@ -31,33 +40,24 @@ router.get('/product', async (ctx, next) => {
     //获取评论数据
     .get('/product/reviews', async (ctx, next) => {
         // 获取评论数据
-        try {
-            let allreview = await reviewDAO.getAllreview()
-            // await ctx.render('review',{data:allreview})
-            ctx.body = {"code": 200, "message": "ok", data: allreview}
-        }
-        catch (err) {
-            ctx.body = {"code": 500, "message": err.toString(), data: []}
-        }
+        await reviewController.getAllreview(ctx,next)
     })
-    // .post('/product/adduserreview/:uid/:pid',async (ctx,next)=> {
-    //     // 增加用户评论数据
-    //     let userreview={}
-    //     userreview.vcontent=ctx.request.body.vcontent
-    //     userreview.vtime=ctx.request.body.vtime
-    //     try {
-    //        await reviewDAO.getAllreview(userreview)
-    //         ctx.body = {"code": 200, "message": "ok", data: []}
-    //     }
-    //     catch (err) {
-    //         ctx.body = {"code": 500, "message": err.toString(), data: []}
-    //     }
+    //· 增加用户评论数据(pid)
+    .post('/product/adduserreview/:oid',async (ctx,next)=> {
+
+        await reviewController.adduserreview(ctx,next)
+    })
+
+    //增加管理员评论数据!!!
+    // .post('/product/addadminreview/:vid',async (ctx,next)=> {
+    //     await reviewController.addadminreview(ctx,next)
+    //
     // })
-
-    //相关用户评论数据插入数据（管理员）
-    .get('/product/review/admin/:vid', async (ctx, next) => {
-
+    //删除商品评价
+    .get('/product/deletereview/:vid',async(ctx,next)=>{
+        await reviewController.deletereview(ctx,next)
     })
+
 
 
     //谭
@@ -87,7 +87,5 @@ router.get('/product', async (ctx, next) => {
 //         ctx.body = {"code":500,"message":err.toString(),data:[]}
 //     }
 // })
-
-
 
 module.exports = router

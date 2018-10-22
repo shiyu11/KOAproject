@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 19/09/2018 20:03:00
+ Date: 28/09/2018 21:19:04
 */
 
 SET NAMES utf8mb4;
@@ -26,12 +26,12 @@ CREATE TABLE `address`  (
   `aname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `phone` int(100) NOT NULL,
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `defaultaddress` bit(1) NOT NULL,
+  `defaultaddress` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `uid` int(11) NOT NULL,
   PRIMARY KEY (`aid`) USING BTREE,
   INDEX `fk_address_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_address_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for admin
@@ -53,7 +53,7 @@ CREATE TABLE `card`  (
   `ctime` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `cpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `cnote` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `cstate` bit(1) NOT NULL DEFAULT b'0',
+  `cstate` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '\0',
   `tid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   PRIMARY KEY (`cid`) USING BTREE,
@@ -61,7 +61,7 @@ CREATE TABLE `card`  (
   INDEX `fk_card_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_card_theme1` FOREIGN KEY (`tid`) REFERENCES `theme` (`tid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_card_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for event
@@ -90,7 +90,7 @@ CREATE TABLE `eventdetails`  (
   INDEX `fk_eventdetails_products1_idx`(`pid`) USING BTREE,
   CONSTRAINT `fk_eventdetails_event1` FOREIGN KEY (`eid`) REFERENCES `event` (`eid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_eventdetails_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for location
@@ -105,7 +105,7 @@ CREATE TABLE `location`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_location_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_location_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for order
@@ -113,7 +113,7 @@ CREATE TABLE `location`  (
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order`  (
   `oid` int(11) NOT NULL,
-  `method` bit(1) NOT NULL DEFAULT b'0',
+  `method` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '\0',
   `state` int(11) NOT NULL,
   `note` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `uid` int(11) NOT NULL,
@@ -151,14 +151,14 @@ CREATE TABLE `products`  (
   `pnum` int(11) NOT NULL,
   `occasion` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `taste` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `theme` bit(1) NOT NULL DEFAULT b'0',
+  `theme` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '\0',
   `dpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `xpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `text` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `intr` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `xxpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`pid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for review
@@ -168,7 +168,7 @@ CREATE TABLE `review`  (
   `vid` int(11) NOT NULL AUTO_INCREMENT,
   `vcontent` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `vtime` datetime(0) NOT NULL ON UPDATE CURRENT_TIMESTAMP(0),
-  `vstate` bit(1) NOT NULL DEFAULT b'0',
+  `vstate` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `reply` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `pid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
@@ -177,7 +177,7 @@ CREATE TABLE `review`  (
   INDEX `fk_review_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_review_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_review_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for theme
@@ -205,10 +205,10 @@ CREATE TABLE `users`  (
   `headpic` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `grade` int(11) NULL DEFAULT 0,
   `level` int(11) NULL DEFAULT 1,
-  `sex` bit(1) NULL DEFAULT NULL,
+  `sex` char(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `birth` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Procedure structure for deleteproduct
@@ -224,6 +224,7 @@ start transaction;
 delete from review where pid = id;
 delete from orderdetails where pid =id;
 delete from eventdetails where pid = id;
+delete from products where pid = id;
 
 if t_error = 1  then
 		select concat('ok!' ,t_error);

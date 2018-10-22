@@ -8,7 +8,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
-
+const cors = require('koa2-cors')
 // error handler
 onerror(app)
 
@@ -34,6 +34,19 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+
+app.use(cors({
+    origin: function (ctx) {
+        return 'http://localhost:8080'; //这样就能只允许 http://localhost:63342 这个域名的请求了
+    },
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}))
+
+
 
 // error-handling
 app.on('error', (err, ctx) => {

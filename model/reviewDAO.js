@@ -5,12 +5,21 @@ class DB{
         return DAO("select review.*,users.uname,users.headpic ,products.pname from review,users,products where users.uid=review.uid and products.pid=review.pid",[])
     }
 
-    //用户增加评论
-    addUserreview(userreview,uid,pid){
-        return DAO("insert into products (vcontent,vtime)values(?,?) where uid=? and pid=?",
-            [ userreview.vcontent, userreview.vtime ,uid,pid]
+    //用户增加评论（pid）
+    addUserreview(userreview){
+        return DAO("insert into review (vcontent,vtime,pid,uid)values(?,?,?,?)",
+            [ userreview.vcontent, userreview.vtime ,userreview.pid,userreview.uid]
         );
     }
-    // addadminreview(){
+    //管理员增加评论!!
+    addadminreview(adminreview){
+        return DAO("insert into review (vstate,reply)values(?,?)",
+            [ adminreview.vstate, adminreview.reply]
+        );
+    }
+//删除某条信息
+    deletereview(vid){
+        return DAO('delete from review where vid = ?;',[vid])
+    }
 }
 module.exports=new DB()
