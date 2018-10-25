@@ -3,7 +3,7 @@ const DAO = require('../model/DAO')
 
 class DB{
     userlogin(uphone){
-        return DAO('select upwd,uphone from users where uphone = ?',[uphone]);
+        return DAO('select * from users where uphone = ?',[uphone]);
     }
     userregister(register) {
         return DAO('insert into users(uphone,upwd,uname) VALUES(?,?,?)',
@@ -26,5 +26,20 @@ class DB{
     // delectUser(uid){
     //     return DAO('delete from users where uid = ?',[uid])
     // }
+
+    //修改更新个人中心文字部分
+    updatausers(users){
+        return DAO('update users set uname=?,sex=?,birth=?,email=? where uid=?',
+            [users.uname,users.sex,users.birth,users.email,users.uid])
+    }
+    //获取单个用户信息的方法
+    getoneUsers(uid){
+        return DAO('select * from users where uid=?',[uid]);
+    }
+    //用户安全中心修改密码
+    updateuserspwd(users){
+        return DAO('update users set upwd=? where uid=?',
+            [users.upwd,users.uid])
+    }
 }
 module.exports = new DB();

@@ -68,8 +68,22 @@ router.post('/register',async (ctx,next)=>{
     ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
     await userController.userregister(ctx,next);
 })
+// 用户注册最终
 
 
+//用户修改个人中心
+    .post('/updateusers', async (ctx, next) => {
+        await userController.updateusers(ctx,next)
+    })
+    //获取单个用户信息
+    .get('/getOneUsers/:uid',async (ctx,next)=>{
+        await userController.getOneUsers(ctx,next)
+    })
+
+    //用户安全中心修改密码
+    .post('/updateuserspwd/:uid', async (ctx, next) => {
+        await userController.updateuserspwd(ctx,next)
+    })
 
 
 
