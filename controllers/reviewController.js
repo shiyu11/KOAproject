@@ -3,7 +3,7 @@ const orderdetailsDAO=require('../model/orderdetailsDAO')
 module.exports = {
     getAllreview: async (ctx, next) => {
         try {
-            let allreview = await reviewDAO.getAllreview()
+            let allreview = await reviewDAO.getAllreview(ctx.params.pid)
             // await ctx.render('review',{data:allreview})
             ctx.body = {"code": 200, "message": "ok", data: allreview}
         }
@@ -12,14 +12,15 @@ module.exports = {
         }
     },
     adduserreview: async (ctx, next) => {
-        let jsondate= await orderdetailsDAO.getOrder2(ctx.params.oid)
-        console.log(jsondate)
+        // let jsondate= await orderdetailsDAO.getOrder2()
+        // console.log(jsondate)
         let userreview = {}
         userreview.vcontent = ctx.request.body.vcontent
         userreview.vtime = ctx.request.body.vtime
-        userreview.pid = jsondate[1].pid      //切换pid的值
-        userreview.uid = jsondate[0].uid
+        userreview.pid =  ctx.request.body.pid
+        userreview.uid =  ctx.request.body.uid
         try {
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             await reviewDAO.addUserreview(userreview)
             ctx.body = {"code": 200, "message": "ok", data: []}
         }

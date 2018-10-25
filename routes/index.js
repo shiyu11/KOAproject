@@ -4,6 +4,7 @@ const orderController = require('../controllers/orderController');
 const orderdetailsController = require('../controllers/orderdetailsController');
 const addressController = require('../controllers/addressController');
 const reviewController = require('../controllers/reviewController');
+const CartController = require('../controllers/cartController');
 
 
 // router.post('/',async (ctx,next)=>{
@@ -18,8 +19,15 @@ const reviewController = require('../controllers/reviewController');
 router.get('/product', async (ctx, next) => {
     ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
     await productController.allproducts(ctx, next)
+})
+//实现商品分页
+//     .get('/product/:index', async (ctx, next) => {
+//         ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+//         await productController.getindexproduct(ctx, next)
+//     })
 
-})//根据商品编号查找相关的商品信息
+
+//根据商品编号查找相关的商品信息
     .get('/product/details/:pid', async (ctx, next) => {
         ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         await productController.getoneproduct(ctx, next)
@@ -38,12 +46,13 @@ router.get('/product', async (ctx, next) => {
     //
     // })
     //获取评论数据
-    .get('/product/reviews', async (ctx, next) => {
+    .get('/product/reviews/:pid', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         // 获取评论数据
         await reviewController.getAllreview(ctx,next)
     })
     //· 增加用户评论数据(pid)
-    .post('/product/adduserreview/:oid',async (ctx,next)=> {
+    .post('/product/adduserreview',async (ctx,next)=> {
 
         await reviewController.adduserreview(ctx,next)
     })
@@ -58,34 +67,86 @@ router.get('/product', async (ctx, next) => {
         await reviewController.deletereview(ctx,next)
     })
 
+   //添加购物车
+    .post('/addcart',async(ctx,next)=>{
+       ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        await CartController.addCart(ctx,next)
+    })
+    .get('/getcart/:uid', async (ctx, next) =>{
+    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+    // 获取购物车数据
+    await CartController.getAllcarts(ctx,next)
+})
+
+    .get('/deletecart/:cid', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        await CartController.deletecart(ctx, next)
+    })
+
+
+    //用户添加地址
+    .post('/addaddress', async (ctx, next) => {
+        await addressController.addAddress(ctx, next)
+    })
+    //用户查看全部地址
+    .get('/alladdress',async (ctx, next) =>{
+        await addressController.getAlladdress(ctx, next)
+    })
+    // //用户查询订单
+    //     .get('/getorderdetails',async (ctx, next) =>{
+    //         await orderdetailsController.getOrder(ctx,next)
+    //     })
+    //用户修改订单待收货→待评价状态
+    .get('/updateor1/:oid',async (ctx, next) =>{
+        await orderController.updateOrder1(ctx,next)
+    })
+    //用户修改订单待评价→完成状态
+    .get('/updateor2/:oid',async (ctx, next) =>{
+        await orderController.updateOrder2(ctx,next)
+    })
+    //用户查看所有订单
+    .get('/allorder', async (ctx, next) => {
+        await orderController.getOrder(ctx, next)
+    })
+    //用户删除订单
+    .get('/orderdelete/:oid',async (ctx,next)=>{
+        await orderController.delectOrder(ctx,next)
+    })
+    // //· 增加用户评论数据(pid)
+    // .post('/product/adduserreview',async (ctx,next)=> {
+    //     await reviewController.adduserreview(ctx,next)
+    // })
+
 
 
     //谭
     .get('/order', async (ctx, next) => {
-        await addressController.getAddress1(ctx, next)
+        await orderController.getOrder(ctx, next)
     })
 
     .post('/orderAdd', async (ctx, next) => {
         await orderController.addOrder(ctx, next)
     })
-
-    .post('/orderAdd1', async (ctx, next) => {
-        await orderdetailsController.addOrder1(ctx, next)
+    .post('/addressAdd',async(ctx,next)=>{
+        await addressController.addAddress(ctx,next)
+    })
+    .get('/orderDel/:oid/:aid', async (ctx, next) => {
+        await orderController.delOrder(ctx, next)
     })
 
-    .post('/orderAdd2', async (ctx, next) => {
-        await addressController.addAddress(ctx, next)
-    });
+    //添加购物车
+    .post('/addcart',async(ctx,next)=>{
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        await CartController.addCart(ctx,next)
+    })
+    .get('/getcart/:uid', async (ctx, next) =>{
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        // 获取购物车数据
+        await CartController.getAllcarts(ctx,next)
+    })
 
-// router.get('/orderDel/:oid',async(ctx,next)=>{
-//
-//     try{
-//         await orderDAO.delOrder(ctx.params.oid);
-//         //3.反馈结果
-//         ctx.body = {"code":200,"message":"ok",data:[]}
-//     }catch(err){
-//         ctx.body = {"code":500,"message":err.toString(),data:[]}
-//     }
-// })
+    .get('/deletecart/:cid', async (ctx, next) => {
+        await CartController.deletecart(ctx, next)
+    })
 
 module.exports = router

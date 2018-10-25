@@ -8,6 +8,10 @@ class DB {
     getProductdetails(pid) {
         return DAO("select * from products where pid=?", [pid]);
     }
+    getProductIndex(index){
+        return DAO("select * from products limit ?,5",[index])
+    }
+
     addProduct(products) {
         return DAO("insert into products values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [products.pid, products.pname, products.ppic, products.pprice, products.pnum, products.occasion,

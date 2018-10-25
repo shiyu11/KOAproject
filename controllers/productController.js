@@ -21,6 +21,16 @@ module.exports = {
             ctx.body = {"code": 500, "message": err.toString(), data: []}
         }
     },
+    getindexproduct:async (ctx, next) => {
+        let productindex = await productDAO.getProductIndex(ctx.params.index)
+        try {
+            // await ctx.render('productdetails', {data: productdetailsdata[0]})
+            ctx.body={"code":200,"message":"ok",data:productindex[0]}
+        }
+        catch (err) {
+            ctx.body = {"code": 500, "message": err.toString(), data: []}
+        }
+    },
     addproduct: async (ctx, next) => {
         //1.收集数据
         let products = {};

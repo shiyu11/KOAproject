@@ -36,7 +36,7 @@ router.post('/adminlogin', async(ctx,next) => {
 // })
 
 
-router.get('/',async (ctx,next)=>{
+router.get('/getAllUser',async (ctx,next)=>{
     await userController.getAllUsers(ctx,next)
 })
 router.post('/usersAdd',async (ctx,next)=>{
@@ -57,5 +57,24 @@ router.post('/usersAdd',async (ctx,next)=>{
 router.get('/usersdelect/:uid',async (ctx,next)=>{
     await userController.usersDelete(ctx.next)
 })
+
+
+router.post('/login',async (ctx,next)=>{
+    await userController.userlogin(ctx,next)
+})
+
+//用户注册
+router.post('/register',async (ctx,next)=>{
+    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+    await userController.userregister(ctx,next);
+})
+
+
+
+
+
+
+
+
 
 module.exports = router
