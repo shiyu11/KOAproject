@@ -84,14 +84,19 @@ router.get('/product', async (ctx, next) => {
     })
 
 
+
+
     //用户添加地址
     .post('/addaddress', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         await addressController.addAddress(ctx, next)
     })
     //用户查看全部地址
-    .get('/alladdress',async (ctx, next) =>{
+    .get('/alladdress/:uid',async (ctx, next) =>{
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         await addressController.getAlladdress(ctx, next)
     })
+
     // //用户查询订单
     //     .get('/getorderdetails',async (ctx, next) =>{
     //         await orderdetailsController.getOrder(ctx,next)
@@ -105,13 +110,17 @@ router.get('/product', async (ctx, next) => {
         await orderController.updateOrder2(ctx,next)
     })
     //用户查看所有订单
-    .get('/allorder', async (ctx, next) => {
+    .get('/allorder/:uid', async (ctx, next) => {
         await orderController.getOrder(ctx, next)
     })
     //用户删除订单
     .get('/orderdelete/:oid',async (ctx,next)=>{
         await orderController.delectOrder(ctx,next)
     })
+    // //· 增加用户评论数据(pid)
+    // .post('/product/adduserreview',async (ctx,next)=> {
+    //     await reviewController.adduserreview(ctx,next)
+    // })
     // //· 增加用户评论数据(pid)
     // .post('/product/adduserreview',async (ctx,next)=> {
     //     await reviewController.adduserreview(ctx,next)

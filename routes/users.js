@@ -2,7 +2,7 @@
 const router = require('koa-router')()
 const adminController=require('../controllers/adminController')
 const userController=require('../controllers/userController')
-
+const userDAO=require('../model/userDAO')
 router.prefix('/users')
 
 router.post('/adminlogin', async(ctx,next) => {
@@ -79,7 +79,6 @@ router.post('/register',async (ctx,next)=>{
     .get('/getOneUsers/:uid',async (ctx,next)=>{
         await userController.getOneUsers(ctx,next)
     })
-
     //用户安全中心修改密码
     .post('/updateuserspwd/:uid', async (ctx, next) => {
         await userController.updateuserspwd(ctx,next)
@@ -89,6 +88,19 @@ router.post('/register',async (ctx,next)=>{
 
 
 
+
+//匹配所有的手机号
+router.get('/getallphone/:uphone',async (ctx,next)=>{
+
+    try{
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        let jsondata = await userDAO.getallphone(ctx.params.uphone);
+        console.log(jsondata)
+        ctx.body = {"code":200,"message":"ok",data:jsondata}
+    }catch (err) {
+        ctx.body = {"code":500,"message":err.toString(),data:[]}
+    }
+})
 
 
 module.exports = router

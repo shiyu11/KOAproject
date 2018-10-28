@@ -41,5 +41,8 @@ class DB{
         return DAO('update users set upwd=? where uid=?',
             [users.upwd,users.uid])
     }
+    getallphone(uphone) {
+        return DAO('select uphone from users where uphone = ?',[uphone]);
+    }
 }
 module.exports = new DB();

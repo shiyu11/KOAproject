@@ -12,6 +12,7 @@ module.exports = {
         }
     },
 
+    //用户添加地址
     addAddress: async (ctx, next) => {
         let address = {};
         address.aid =ctx.request.body.aid;
@@ -30,11 +31,10 @@ module.exports = {
             ctx.body = {"code":500,"message":err.toString(),data:[]}
         }
     },
-
     //用户获取全部地址
     getAlladdress: async (ctx, next) => {
         try {
-            let jsondata = await addressDAO.getAlladdress();
+            let jsondata = await addressDAO.getAlladdress(ctx.params.uid);
             ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             ctx.body = {"code": 200, "message": "ok", data: jsondata}
         }

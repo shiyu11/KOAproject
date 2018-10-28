@@ -14,9 +14,13 @@ class DB {
         return DAO("call proc_del(?)",
             [oid]);
     }
+
+
+
     //用户查看所有订单
-    getOrder(){
-        return DAO('select * from `order`,orderdetails,address,products where order.oid = orderdetails.oid and address.uid = order.uid and products.pid=orderdetails.pid')
+    getOrder(uid) {
+        return DAO('select `order`.* ,orderdetails.pid,orderdetails.rnum,products.pname,products.ppic from `order`,orderdetails,products where `order`.oid = orderdetails.oid and products.pid=orderdetails.pid and order.uid=? order by `order`.oid',
+            [uid])
     }
     // getOrder() {
     //     return DAO('select * from `order`,orderdetails,address where order.oid = orderdetails.oid and address.uid = order.uid', []);

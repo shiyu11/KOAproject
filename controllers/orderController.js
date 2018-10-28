@@ -27,7 +27,7 @@ module.exports = {
         try {
             ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             //2.调用用户数据访问对象的添加方法
-            let order = await orderDAO.getOrder ();
+            let order = await orderDAO.getOrder (ctx.params.uid);
             //3.反馈结果
             ctx.body = {"code": 200, "message": "ok", data: order}
         } catch (err) {
@@ -66,9 +66,6 @@ module.exports = {
             console.log('无法找到当前信息，错误：'+err.message)
         }
     },
-
-
-
 
 
 };
