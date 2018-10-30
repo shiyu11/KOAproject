@@ -9,7 +9,7 @@ const CartController = require('../controllers/cartController');
 
 // router.post('/',async (ctx,next)=>{
 //     //实现跨域允许，第二个参数代表可以跨域请求的源，*代表接受所有不同来源的请求
-//     ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+//     ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
 //     //await起到了then的作用，用于处理异步回调方法执行的后续工作
 //     await houseController.locationHouse(ctx,next)
 //     // await ctx.render('house',{data:jsondata})
@@ -17,19 +17,19 @@ const CartController = require('../controllers/cartController');
 
 //根据商品的调出所有商品的主要信息
 router.get('/product', async (ctx, next) => {
-    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+    ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
     await productController.allproducts(ctx, next)
 })
 //实现商品分页
 //     .get('/product/:index', async (ctx, next) => {
-//         ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+//         ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
 //         await productController.getindexproduct(ctx, next)
 //     })
 
 
 //根据商品编号查找相关的商品信息
     .get('/product/details/:pid', async (ctx, next) => {
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await productController.getoneproduct(ctx, next)
     })
     //增加商品信息(文字)
@@ -47,7 +47,7 @@ router.get('/product', async (ctx, next) => {
     // })
     //获取评论数据
     .get('/product/reviews/:pid', async (ctx, next) => {
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         // 获取评论数据
         await reviewController.getAllreview(ctx,next)
     })
@@ -69,17 +69,17 @@ router.get('/product', async (ctx, next) => {
 
    //添加购物车
     .post('/addcart',async(ctx,next)=>{
-       ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+       ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await CartController.addCart(ctx,next)
     })
     .get('/getcart/:uid', async (ctx, next) =>{
-    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+    ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
     // 获取购物车数据
     await CartController.getAllcarts(ctx,next)
 })
 
     .get('/deletecart/:cid', async (ctx, next) => {
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await CartController.deletecart(ctx, next)
     })
 
@@ -88,12 +88,12 @@ router.get('/product', async (ctx, next) => {
 
     //用户添加地址
     .post('/addaddress', async (ctx, next) => {
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await addressController.addAddress(ctx, next)
     })
     //用户查看全部地址
     .get('/alladdress/:uid',async (ctx, next) =>{
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await addressController.getAlladdress(ctx, next)
     })
 
@@ -133,11 +133,13 @@ router.get('/product', async (ctx, next) => {
         await orderController.getOrder(ctx, next)
     })
 
-    .post('/orderAdd', async (ctx, next) => {
+    .post('/orderAdd1', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await orderController.addOrder(ctx, next)
     })
-    .post('/addressAdd',async(ctx,next)=>{
-        await addressController.addAddress(ctx,next)
+    .post('/orderAdd2',async(ctx,next)=>{
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        await orderController.addorder2(ctx,next)
     })
     .get('/orderDel/:oid/:aid', async (ctx, next) => {
         await orderController.delOrder(ctx, next)
@@ -145,11 +147,11 @@ router.get('/product', async (ctx, next) => {
 
     //添加购物车
     .post('/addcart',async(ctx,next)=>{
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         await CartController.addCart(ctx,next)
     })
     .get('/getcart/:uid', async (ctx, next) =>{
-        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         // 获取购物车数据
         await CartController.getAllcarts(ctx,next)
     })

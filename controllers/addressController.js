@@ -23,7 +23,7 @@ module.exports = {
         address.uid = ctx.request.body.uid;
         try{
             //2.调用用户数据访问对象的添加方法
-            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
             await addressDAO.addAddress(address);
             //3.反馈结果
             ctx.body = {"code":200,"message":"ok",data:[]}
@@ -35,7 +35,7 @@ module.exports = {
     getAlladdress: async (ctx, next) => {
         try {
             let jsondata = await addressDAO.getAlladdress(ctx.params.uid);
-            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
             ctx.body = {"code": 200, "message": "ok", data: jsondata}
         }
         catch (err) {

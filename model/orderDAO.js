@@ -5,11 +5,16 @@ class DB {
     }
 
     addOrder(orderAll) {
-        return DAO("call proc_add(?,?,?,?,?,?,?,?,?,?)",
+        return DAO("insert into `order`(state,uid,money,aname,phone,address) value(?,?,?,?,?,?)",
             [orderAll.state,orderAll.uid,orderAll.money,
-                orderAll.rnum,orderAll.oid,orderAll.pid,orderAll.aname,orderAll.phone,
-                orderAll.address,orderAll.defaultaddress]);
+               orderAll.aname,orderAll.phone,
+                orderAll.address]);
     }
+    addorder2(orderAll) {
+        return DAO("insert into orderdetails(oid,pid,rnum) value ((select Max(order.oid) from `order` where uid=?),?,?) ",
+            [orderAll.uid,orderAll.pid,orderAll.rnum]);
+    }
+
     delOrder(oid){
         return DAO("call proc_del(?)",
             [oid]);

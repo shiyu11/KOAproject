@@ -20,6 +20,7 @@ module.exports = {
         carts.size = ctx.request.body.size
         carts.pid = ctx.request.body.pid
         carts.uid =  ctx.request.body.uid
+        carts.pno =  ctx.request.body.pno
         try {
             await cartDAO.addCart(carts)
             ctx.body = {"code": 200, "message": "ok", data: []}

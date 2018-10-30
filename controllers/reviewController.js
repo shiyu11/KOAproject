@@ -20,7 +20,7 @@ module.exports = {
         userreview.pid =  ctx.request.body.pid
         userreview.uid =  ctx.request.body.uid
         try {
-            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
+            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
             await reviewDAO.addUserreview(userreview)
             ctx.body = {"code": 200, "message": "ok", data: []}
         }
