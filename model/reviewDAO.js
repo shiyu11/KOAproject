@@ -2,7 +2,7 @@ var DAO=require('../model/DAO')
 class DB{
 //获取全部的评论相关信息
     getAllreview(pid){
-        return DAO("select * from (select review.*,users.uname,users.headpic ,products.pname from review,users,products where users.uid=review.uid and products.pid=review.pid)temp where temp.pid=?",[pid])
+        return DAO("select * from (select review.*,users.uname,users.headpic ,products.pname from review,users,products where users.uid=review.uid and products.pid=review.pid)temp where temp.pid=? order by vid DESC",[pid])
     }
 
     //用户增加评论（pid）

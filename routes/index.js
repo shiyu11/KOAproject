@@ -5,6 +5,7 @@ const orderdetailsController = require('../controllers/orderdetailsController');
 const addressController = require('../controllers/addressController');
 const reviewController = require('../controllers/reviewController');
 const CartController = require('../controllers/cartController');
+const collectController = require('../controllers/collectController');
 
 
 // router.post('/',async (ctx,next)=>{
@@ -159,5 +160,27 @@ router.get('/product', async (ctx, next) => {
     .get('/deletecart/:cid', async (ctx, next) => {
         await CartController.deletecart(ctx, next)
     })
+
+    //添加收藏
+    .post('/addcollection',async(ctx,next)=>{
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        await collectController.addcollect(ctx,next)
+    })
+    //获取收藏信息
+    .get('/getcollect/:uid', async (ctx, next) =>{
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        await collectController.getAllcollect(ctx,next)
+    })
+    //删除收藏信息
+    .get('/deletecollect/:pid', async (ctx, next) => {
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        await collectController.deletecollect(ctx, next)
+    })
+    //获取判断信息
+    .get('/getonly/:uid/:pid', async (ctx, next) =>{
+        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        await collectController.getonly(ctx,next)
+    })
+
 
 module.exports = router
