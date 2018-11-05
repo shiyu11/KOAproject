@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 01/11/2018 22:02:28
+ Date: 05/11/2018 18:54:22
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `address`  (
   PRIMARY KEY (`aid`) USING BTREE,
   INDEX `fk_address_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_address_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of address
@@ -47,6 +47,7 @@ INSERT INTO `address` VALUES (12, '1', '18252588759', '苏州工业园区', '1',
 INSERT INTO `address` VALUES (13, '11', '11', '11', '0', 1);
 INSERT INTO `address` VALUES (14, '黄明华', '15505179378', '苏州市工业园区松涛街', '0', 18);
 INSERT INTO `address` VALUES (15, '11', '请求 1111', '1111', '0', 12);
+INSERT INTO `address` VALUES (16, 'z\'z\'z', 'z\'z\'z', 'z\'z\'z', '0', 12);
 
 -- ----------------------------
 -- Table structure for admin
@@ -57,7 +58,7 @@ CREATE TABLE `admin`  (
   `admin` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `apwd` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`gid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for card
@@ -98,7 +99,7 @@ CREATE TABLE `cart`  (
   INDEX `cart2`(`uid`) USING BTREE,
   CONSTRAINT `cart1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `cart2` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of cart
@@ -113,12 +114,15 @@ INSERT INTO `cart` VALUES (31, 2, 9, 1, 3);
 INSERT INTO `cart` VALUES (36, 2, 7, 16, 3);
 INSERT INTO `cart` VALUES (37, 2, 12, 16, 5);
 INSERT INTO `cart` VALUES (38, 2, 12, 16, 2);
-INSERT INTO `cart` VALUES (39, 1, 4, 12, 8);
 INSERT INTO `cart` VALUES (45, 3, 3, NULL, 1);
 INSERT INTO `cart` VALUES (46, 2, 7, NULL, 1);
 INSERT INTO `cart` VALUES (47, 2, 11, NULL, 1);
 INSERT INTO `cart` VALUES (49, 2, 6, 18, 1);
 INSERT INTO `cart` VALUES (62, 3, 12, NULL, 1);
+INSERT INTO `cart` VALUES (70, 2, 2, NULL, 1);
+INSERT INTO `cart` VALUES (71, 2, 12, 12, 2);
+INSERT INTO `cart` VALUES (72, 2, 2, 12, 2);
+INSERT INTO `cart` VALUES (73, 2, 23, 12, 1);
 
 -- ----------------------------
 -- Table structure for collect
@@ -133,17 +137,12 @@ CREATE TABLE `collect`  (
   INDEX `collect2`(`uid`) USING BTREE,
   CONSTRAINT `collect1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `collect2` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 156 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 167 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of collect
 -- ----------------------------
-INSERT INTO `collect` VALUES (6, 2, 4);
-INSERT INTO `collect` VALUES (58, 1, 11);
-INSERT INTO `collect` VALUES (59, 2, 4);
-INSERT INTO `collect` VALUES (60, 4, 7);
-INSERT INTO `collect` VALUES (159, 2, 12);
-INSERT INTO `collect` VALUES (160, 6, 12);
+INSERT INTO `collect` VALUES (166, 2, 12);
 
 -- ----------------------------
 -- Table structure for event
@@ -155,7 +154,7 @@ CREATE TABLE `event`  (
   `rule` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `etimeend` datetime(0) NOT NULL,
   PRIMARY KEY (`eid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for eventdetails
@@ -204,7 +203,7 @@ CREATE TABLE `order`  (
   PRIMARY KEY (`oid`) USING BTREE,
   INDEX `fk_order_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_order_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order
@@ -216,9 +215,12 @@ INSERT INTO `order` VALUES (4, '已完成', 12, 'jjj', '苏州工业园区', '�
 INSERT INTO `order` VALUES (5, '待评价', 1, 'jjj', '苏州工业园区', '施宇', '18252588759');
 INSERT INTO `order` VALUES (8, '已完成', 12, 'jjj', '苏州工业园区', '施宇', '18252588759');
 INSERT INTO `order` VALUES (9, '待评价', 12, '11', '苏州工业园区', '施宇', '18252588759');
-INSERT INTO `order` VALUES (21, '待收货', 12, '3160', '33333', '11', '13433333333');
+INSERT INTO `order` VALUES (21, '待评价', 12, '3160', '33333', '11', '13433333333');
 INSERT INTO `order` VALUES (22, '待收货', 12, '2925', '2222', '11', '18252588759');
-INSERT INTO `order` VALUES (23, '待收货', 12, '2925', '333333', '111', '18252528875');
+INSERT INTO `order` VALUES (23, '已完成', 12, '2925', '333333', '111', '18252528875');
+INSERT INTO `order` VALUES (24, '待收货', 12, '792', '水水水水水水', '始于', '18252588759');
+INSERT INTO `order` VALUES (25, '待收货', 12, '2080', '及科技', '酷酷酷', '13256481546');
+INSERT INTO `order` VALUES (26, '待收货', 12, '236', '22222222', '我的测试', '18252588759');
 
 -- ----------------------------
 -- Table structure for orderdetails
@@ -234,7 +236,7 @@ CREATE TABLE `orderdetails`  (
   INDEX `fk_orderdetails_products1_idx`(`pid`) USING BTREE,
   CONSTRAINT `fk_orderdetails_order1` FOREIGN KEY (`oid`) REFERENCES `order` (`oid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_orderdetails_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orderdetails
@@ -251,6 +253,9 @@ INSERT INTO `orderdetails` VALUES (10, 1, 9, 8);
 INSERT INTO `orderdetails` VALUES (19, 8, 9, 4);
 INSERT INTO `orderdetails` VALUES (20, 3, 21, 9);
 INSERT INTO `orderdetails` VALUES (21, 3, 23, 9);
+INSERT INTO `orderdetails` VALUES (22, 1, 23, 2);
+INSERT INTO `orderdetails` VALUES (23, 2, 24, 12);
+INSERT INTO `orderdetails` VALUES (24, 2, 24, 2);
 
 -- ----------------------------
 -- Table structure for products
@@ -319,7 +324,7 @@ CREATE TABLE `review`  (
   INDEX `fk_review_users1_idx`(`uid`) USING BTREE,
   CONSTRAINT `fk_review_products1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_review_users1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of review
@@ -354,6 +359,8 @@ INSERT INTO `review` VALUES (32, 'haode', '2018-10-28T07:25:29.064Z', NULL, NULL
 INSERT INTO `review` VALUES (33, '好吃的', '2018-10-28T11:55:31.112Z', NULL, NULL, 9, 12);
 INSERT INTO `review` VALUES (34, '回去哦吃到的', '2018-10-29T01:52:09.265Z', NULL, NULL, 1, 12);
 INSERT INTO `review` VALUES (35, '222 ', '2018-11-01T13:04:50.040Z', NULL, NULL, 1, 12);
+INSERT INTO `review` VALUES (36, '好的', '2018-11-02T07:26:29.995Z', NULL, NULL, 2, 12);
+INSERT INTO `review` VALUES (37, '好的', '2018-11-02T07:26:29.995Z', NULL, NULL, 2, 12);
 
 -- ----------------------------
 -- Table structure for theme
@@ -368,7 +375,7 @@ CREATE TABLE `theme`  (
   `text2` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `text3` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`tid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of theme
@@ -391,7 +398,7 @@ CREATE TABLE `users`  (
   `uphone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
@@ -405,7 +412,7 @@ INSERT INTO `users` VALUES (6, '李订', '0a113ef6b61820daa5611c870ed8d5ee', NUL
 INSERT INTO `users` VALUES (7, '小明天', '0a113ef6b61820daa5611c870ed8d5ee', NULL, 0, 1, NULL, NULL, '13076278167', NULL);
 INSERT INTO `users` VALUES (9, '黄明华', '0a113ef6b61820daa5611c870ed8d5ee', NULL, 0, 1, NULL, NULL, '18252588777', NULL);
 INSERT INTO `users` VALUES (10, '谭钦允', '0a113ef6b61820daa5611c870ed8d5ee', NULL, 0, 1, NULL, NULL, '18252588747', NULL);
-INSERT INTO `users` VALUES (12, '施宇啊', '0a113ef6b61820daa5611c870ed8d5ee', NULL, 0, 1, '女', '2018-09-08 00:00:00', '18252588759', '182525885@qq.com');
+INSERT INTO `users` VALUES (12, '施宇啊', '21218cca77804d2ba1922c33e0151105', NULL, 0, 1, '男', '2018-09-07 00:00:00', '18252588759', '182525885@qq.com');
 INSERT INTO `users` VALUES (13, '谭钦允', '15de21c670ae7c3f6f3f1f37029303c9', NULL, 0, 1, NULL, NULL, '13037620167', NULL);
 INSERT INTO `users` VALUES (16, '谭钦允', '0a113ef6b61820daa5611c870ed8d5ee', NULL, 0, 1, NULL, NULL, '18252588717', NULL);
 INSERT INTO `users` VALUES (17, '哈利哈利', '25d55ad283aa400af464c76d713c07ad', NULL, 0, 1, NULL, NULL, '17607095261', NULL);
