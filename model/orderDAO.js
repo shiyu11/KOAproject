@@ -36,11 +36,11 @@ class DB {
     }
     //用户修改订单待收货→待评价状态
     updateuserOrder1(oid){
-        return DAO('update `order` set state=\'待评价\' where oid=?',[oid])
+        return DAO('update `order` set state=\'待评价\' where oid=? order by `order`.oid DESC',[oid])
     }
     //用户修改订单待评价→完成状态
     updateuserOrder2(oid){
-        return DAO('update `order` set state=\'已完成\' where oid=?',[oid])
+        return DAO('update `order` set state=\'已完成\' where oid=? order by `order`.oid DESC',[oid])
     }
 
 }
