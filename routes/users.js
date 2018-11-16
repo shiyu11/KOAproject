@@ -65,7 +65,7 @@ router.post('/login',async (ctx,next)=>{
 
 //用户注册
 router.post('/register',async (ctx,next)=>{
-    ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+    ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
     await userController.userregister(ctx,next);
 })
 // 用户注册最终
@@ -93,7 +93,7 @@ router.post('/register',async (ctx,next)=>{
 router.get('/getallphone/:uphone',async (ctx,next)=>{
 
     try{
-        ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+        ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         let jsondata = await userDAO.getallphone(ctx.params.uphone);
         console.log(jsondata)
         ctx.body = {"code":200,"message":"ok",data:jsondata}

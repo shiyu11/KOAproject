@@ -35,7 +35,7 @@ module.exports = {
     //用户获取全部订单详情
     getOrder:async (ctx, next) => {
         try {
-            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             //2.调用用户数据访问对象的添加方法
             let order = await orderDAO.getOrder (ctx.params.uid);
             //3.反馈结果
@@ -57,7 +57,7 @@ module.exports = {
     //用户修改订单待收货→待评价状态
     updateOrder1:async (ctx,next)=>{
         try{
-            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             await orderDAO.updateuserOrder1(ctx.params.oid)
             ctx.body = {"code":200,"message":"ok",data:[]}
         }
@@ -68,7 +68,7 @@ module.exports = {
     //用户修改订单待评价→完成状态
     updateOrder2:async (ctx,next)=>{
         try{
-            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             await orderDAO.updateuserOrder2(ctx.params.oid)
             ctx.body = {"code":200,"message":"ok",data:[]}
         }

@@ -4,7 +4,7 @@ const crypto=require('crypto')
 module.exports = {
     userlogin: async (ctx, next) => {
 //用户登录
-ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
         let query = ctx.request.body;
         let users = {};
         users.uphone = query.uphone;
@@ -131,7 +131,7 @@ ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
         users.email=ctx.request.body.email;
         try {
             let jsondata=await userDAO.updatausers(users);
-            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             ctx.set('content-type', 'application/json');
             ctx.body = {"code": 200, "message": "OK", data:[]}
         } catch (e) {
@@ -142,7 +142,7 @@ ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
     getOneUsers: async (ctx, next) => {
         try {
             let jsondata = await userDAO.getoneUsers(ctx.params.uid);
-            ctx.set("Access-Control-Allow-Origin","http://10.40.4.15:8080")
+            ctx.set("Access-Control-Allow-Origin","http://localhost:8080")
             ctx.body = {"code": 200, "message": "ok", data: jsondata}
         }
         catch (err) {
